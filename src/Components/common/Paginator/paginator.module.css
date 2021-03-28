@@ -1,0 +1,6 @@
+.selectedPage{
+    font-weight: bold;
+    border: 0.5px solid black;
+    padding: 2px;
+    margin: 5px;
+}

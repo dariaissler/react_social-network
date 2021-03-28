@@ -3,24 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import state, {subscribe} from './Components/redux/State';
-import {addPost, updateNewPostText, sendMessage} from './Components/redux/State';
+import store from './Components/redux/redux-store';
 import {BrowserRouter} from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 
 // addPost('hello you bitches how is your fucking lifes? ');
 
-export let renderEntireTree =(state) => {
+
     ReactDOM.render(
         <BrowserRouter>
-          <App updateNewPostText={updateNewPostText} sendMessage={sendMessage} addPost={addPost} dialogs={state.dialogs} messages={state.messages} posts={state.posts} friends={state.friends}/>, 
+        <Provider store={store}>
+          <App dispatch={store.dispatch.bind(store)} store={store}/>, 
+        </Provider>
         </BrowserRouter>,
       
         document.getElementById('root')
       );
-}
-renderEntireTree(state);
-subscribe(renderEntireTree);
+
+
+
 
 // ReactDOM.render(
 //   <BrowserRouter>

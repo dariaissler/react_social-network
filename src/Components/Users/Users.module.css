@@ -1,0 +1,21 @@
+.usersContainer{
+    display: grid;
+    /* grid-template-rows: repeat(6, 2fr); */
+    grid-template-columns: repeat(6, 2fr);
+    grid-gap: 20px;
+    padding: 20px;
+
+}
+.userImage{
+    width: 100px;
+  }
+
+button{
+    width: 100px;
+}
+.userDescription{
+    
+}
+.selectedPage{
+    font-weight: bold;
+}

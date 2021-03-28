@@ -1,47 +1,56 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
-import Header from './Components/Header/Header';
+import HeaderContainer from './Components/Header/HeaderContainer';
 import Navbar from './Components/Navbar/Navbar';
-import Profile from './Components/Profile/Profile';
-import Dialogs from './Components/Dialogs/Dialogs';
-import Friends from './Components/Friends/Friends';
-import {Route } from 'react-router-dom';
+import {Route, withRouter } from 'react-router-dom';
+import UsersContainer from './Components/Users/UsersContainer';
+import Login from './Components/Login/Login';
+import {connect} from 'react-redux';
+import {initializeAppThunk} from './Components/redux/appReducer';
+import {compose} from 'redux';
+import Preloader from './Components/common/Preloader/Preloader.jsx';
 
+const DialogsContainer = React.lazy(() => import('./Components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./Components/Profile/ProfileContainer'));
 
-const App = (props) => {
-  return(
-<div className='app-wrapper'>
-      
-      <Header/>
-      <Navbar/>
-      <div className='app-wrapper-content'>
-        {/* <Route path='/dialogs' component={Dialogs}/>
-        <Route path='/profile' component={Profile}/> */}
+class App extends React.Component {
+  componentDidMount(){
+    this.props.initializeAppThunk();
+}
 
-        <Route path='/dialogs' render={ () => <Dialogs sendMessage={props.sendMessage} dialogs={props.dialogs} messages={props.messages}/>} />
-        <Route path='/profile' render={ () => <Profile updateNewPostText={props.updateNewPostText} newPostText={props.posts.newPostText} addPost={props.addPost} posts={props.posts}/>} />    
-        <Route path='/friends' render={ () => <Friends friends={props.friends}/>} />
-        
-      
-      </div>
-      </div>
-      
-
-      
-  
- 
-     
-     
+  render(){
+    if(!this.props.initialized) {
+      return <Preloader/>
+    }
    
+    return(
+      <div className='app-wrapper'>
+            
+            <HeaderContainer/>
+            <Navbar/>
+            <div className='app-wrapper-content'>
+              {/* <Route path='/dialogs' component={Dialogs}/>
+              <Route path='/profile' component={Profile}/> */}
+      
+              <Route path='/dialogs' render={ () =>
+                <Suspense fallback={<div>wait please...</div>}><DialogsContainer store={this.props.store}/></Suspense> } />
+              <Route path='/profile/:userId?' render={ () => 
+              <Suspense fallback={<div>wait please...</div>} ><ProfileContainer store={this.props.store}/></Suspense> } />    
+              {/* <Route path='/friends' render={ () => <Friends friends={props.state.sideBar.friends}/>} /> */}
+              <Route path='/users' render={()=> <UsersContainer/>}/>
+              <Route path='/login' render={() => <Login/>} />
+              
+            
+            </div>
+            </div>
+    );
+    }
+  }
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized
+})
 
-   
-
-  );
-
-};
-
-
-
-
-
-export default App;
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {initializeAppThunk}))
+(App)
