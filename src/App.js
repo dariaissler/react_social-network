@@ -6,7 +6,7 @@ import {Route, withRouter } from 'react-router-dom';
 import UsersContainer from './Components/Users/UsersContainer';
 import Login from './Components/Login/Login';
 import {connect} from 'react-redux';
-import {initializeAppThunk} from './Components/redux/appReducer';
+import {initializeAppThunk} from './Components/redux/appReducer.tsx';
 import {compose} from 'redux';
 import Preloader from './Components/common/Preloader/Preloader.jsx';
 

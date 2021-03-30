@@ -3,12 +3,12 @@ import {reduxForm, Field} from 'redux-form';
 import {Input} from '../common/FormControls/FormsControls';
 import {required} from '../../Utils/Validators/validator';
 import {connect} from 'react-redux';
-import {login} from '../redux/AuthReducer';
+import {login, getCaptchaUrl} from '../redux/AuthReducer';
 import {Redirect} from 'react-router-dom';
 import s from '../common/FormControls/FormControl.module.css';
 
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
      return (
           <form onSubmit={handleSubmit}>
                <div>
@@ -20,6 +20,11 @@ const LoginForm = ({handleSubmit, error}) => {
                <div>
                     <Field name={"rememberMe"} type={"checkbox"} component={'input'}/> remember me
                </div>
+
+           {captchaUrl && <div><img alt="captcha" src={captchaUrl}/></div>}
+           {captchaUrl && <Field placeholder={"symbols from image"} name={"captcha"}
+            validate={[required]}  component={'input'}/> }
+
                { error && <div className={s.formError}>
                     {error}
                </div>}
@@ -34,7 +39,8 @@ const LoginReduxForm = reduxForm({ form: 'login'})(LoginForm);
 
 const Login = (props) => {
      const onSubmit = (formData) => {
-          props.login(formData.email, formData.password, formData.rememberMe);
+          props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
+          props.getCaptchaUrl(formData.captcha)
      }
 
      if(props.isAuth){
@@ -43,14 +49,15 @@ const Login = (props) => {
 
      return <div>
           <h1>LOGIN</h1>
-      <LoginReduxForm onSubmit={onSubmit}/>
+      <LoginReduxForm captchaUrl={props.captchaUrl} onSubmit={onSubmit}/>
      </div>
 }
 
 
 
 const mapStateToProps = (state) => ({
-     isAuth : state.auth.isAuth
+     isAuth : state.auth.isAuth,
+     captchaUrl: state.auth.captchaUrl,
 })
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {login, getCaptchaUrl})(Login);
