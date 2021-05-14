@@ -1,6 +1,4 @@
-import profileReducer ,{addPostActionCreator} from './profileReducer';
-
-
+import profileReducer , {addPostActionCreator} from './profileReducer';
 
 it('new post should be added', () => {
   let action = addPostActionCreator("daria issler")

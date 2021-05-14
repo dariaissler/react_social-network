@@ -2,7 +2,7 @@
   "name": "daria-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dariaissler.github.io/react_social-media",
+  "homepage": "https://dariaissler.github.io/react_social-network",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
@@ -11,6 +11,7 @@
     "@types/node": "^14.14.37",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/redux-form": "^8.3.1",
     "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-redux": "^7.1.16",
     "gh-pages": "^3.1.0"
   }
 }

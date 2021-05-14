@@ -1,4 +1,4 @@
-import {authUserThunk} from './AuthReducer';
+import {authUserThunk} from '../redux/AuthReducer';
 
 const  INITIALIZED_SUCCESS= 'INITIALIZED_SUCCESS';
 
@@ -6,7 +6,7 @@ let initialState = {
     initialized: false,
 }
 
-  const appReducer = (state = initialState, action: any) => {
+  const appReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case INITIALIZED_SUCCESS: 
@@ -23,7 +23,7 @@ let initialState = {
 export const initializedSuccess = () => ({type: INITIALIZED_SUCCESS})
 
 
-export const initializeAppThunk = () => (dispatch: any) => {
+export const initializeAppThunk = () => (dispatch) => {
 let promise = dispatch(authUserThunk());
 promise.then(() => {
     dispatch(initializedSuccess());

@@ -6,6 +6,8 @@
 
 .loginBlock{
   float: right;
+  padding: 10px;
+
 }
 .loginBlock a{
   color: lightseagreen;
